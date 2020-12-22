@@ -315,7 +315,7 @@ class AlignCollate(object):
 
                 resized_image = image.resize((resized_w, self.imgH), Image.BICUBIC)
                 resized_images.append(transform(resized_image))
-                # resized_image.save('./image_test/%d_test.jpg' % w)
+                #resized_image.save('./image_test/%d_test.jpg' % w)
 
             image_tensors = torch.cat([t.unsqueeze(0) for t in resized_images], 0)
 

@@ -1,7 +1,12 @@
 **/saved_models/*
-**/data_lmdb_release/*
+**/data/*
+**/data_lmdb/*
 **/image_release/*
 **/result/*
+**/finetune_data/*
+**/finetune_data_lmdb/*
+**/second_data/*
+**/second_data_lmdb/*
 *.mdb
 *.pth
 *.tar

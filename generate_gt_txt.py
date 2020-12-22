@@ -1,7 +1,7 @@
 import os
 
 sub_dirs = ['train', 'valid', 'test']
-data_path = '2nd_data'
+data_path = 'second_data'
 
 for sub_dir in sub_dirs:
     path = os.path.join(data_path, sub_dir)

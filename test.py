@@ -154,6 +154,7 @@ def validation(model, criterion, evaluation_loader, converter, opt, ignore_idx=[
         preds_prob = F.softmax(preds, dim=2)
         preds_max_prob, _ = preds_prob.max(dim=2)
         confidence_score_list = []
+    
         for gt, pred, pred_max_prob in zip(labels, preds_str, preds_max_prob):
             if 'Attn' in opt.Prediction:
                 gt = gt[:gt.find('[s]')]
@@ -169,6 +170,10 @@ def validation(model, criterion, evaluation_loader, converter, opt, ignore_idx=[
                 out_of_alphanumeric_case_insensitve = f'[^{alphanumeric_case_insensitve}]'
                 pred = re.sub(out_of_alphanumeric_case_insensitve, '', pred)
                 gt = re.sub(out_of_alphanumeric_case_insensitve, '', gt)
+
+            if pred != gt:
+                print('gt: {} | pred: {}'.format(gt, pred))
+ 
 
             if pred == gt:
                 n_correct += 1
@@ -263,16 +268,16 @@ if __name__ == '__main__':
     parser.add_argument('--eval_data', required=True, help='path to evaluation dataset')
     parser.add_argument('--benchmark_all_eval', action='store_true', help='evaluate 10 benchmark evaluation datasets')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
-    parser.add_argument('--batch_size', type=int, default=144, help='input batch size')
+    parser.add_argument('--batch_size', type=int, default=64, help='input batch size')
     parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
     """ Data processing """
-    parser.add_argument('--batch_max_length', type=int, default=50, help='maximum-label-length')
-    parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
-    parser.add_argument('--imgW', type=int, default=192, help='the width of the input image')
+    parser.add_argument('--batch_max_length', type=int, default=10, help='maximum-label-length')
+    parser.add_argument('--imgH', type=int, default=64, help='the height of the input image')
+    parser.add_argument('--imgW', type=int, default=350, help='the width of the input image')
     parser.add_argument('--rgb', action='store_true', help='use rgb input')
     parser.add_argument('--character', type=str, default='0123456789abcdefghijklmnopqrstuvwxyz', help='character label')
     parser.add_argument('--sensitive', action='store_true', help='for sensitive character mode')
-    parser.add_argument('--PAD', action='store_true', help='whether to keep ratio then pad for image resize')
+    parser.add_argument('--PAD', type=bool, default=True, help='whether to keep ratio then pad for image resize')
     parser.add_argument('--data_filtering_off', action='store_true', help='for data_filtering_off mode')
     parser.add_argument('--baiduCTC', action='store_true', help='for data_filtering_off mode')
     """ Model Architecture """
